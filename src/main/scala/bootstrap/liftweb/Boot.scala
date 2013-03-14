@@ -50,6 +50,7 @@ class Boot {
     val entries = List(
       Menu.i("Домой") / "index" >> EarlyResponse(loggedIn),
       Menu.i("Список") / "list" >> EarlyResponse(loggedIn),
+      Menu.i("Категории") / "by-category" >> EarlyResponse(loggedIn),
 
       Menu.i("Логин") / "login" >> Hidden
     )
