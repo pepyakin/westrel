@@ -49,6 +49,7 @@ class Boot {
     // Build SiteMap
     val entries = List(
       Menu.i("Домой") / "index" >> EarlyResponse(loggedIn),
+      Menu.i("Список") / "list" >> EarlyResponse(loggedIn),
 
       Menu.i("Логин") / "login" >> Hidden
     )

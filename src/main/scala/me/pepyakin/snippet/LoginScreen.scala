@@ -1,10 +1,8 @@
 package me.pepyakin.snippet
 
-import net.liftweb.http.{StatefulSnippet, LiftScreen, SHtml, S}
-import scala.xml.{NodeSeq, Text}
+import net.liftweb.http.{StatefulSnippet, SHtml, S}
 import net.liftweb.util._
 import net.liftweb.common._
-import java.util.Date
 import Helpers._
 
 import me.pepyakin.util.Auth

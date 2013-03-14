@@ -16,6 +16,8 @@ object WestrelSchema extends Schema {
 
   val users = table[User]
 
+  val accountEntries = table[AccountEntry]
+
 //  on(users)(s =>
 //    declare(
 //      // Имя пользователя должно быть уникально.
