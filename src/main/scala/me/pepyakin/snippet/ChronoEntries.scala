@@ -37,7 +37,7 @@ object ChronoEntries extends Loggable {
     logger.info("outcome: " + outcome)
 
     val totalIncome = income.map(_.amount).reduce(_ + _)
-    val totalOutcome = outcome.map(_.amount).reduce(_ - _)
+    val totalOutcome = outcome.map(_.amount).reduce(_ + _)
     val total = totalIncome - totalOutcome
 
     logger.info("total: " + total)
