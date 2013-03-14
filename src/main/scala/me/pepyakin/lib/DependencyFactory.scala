@@ -1,5 +1,4 @@
-package code
-package lib
+package me.pepyakin.lib
 
 import net.liftweb._
 import http._

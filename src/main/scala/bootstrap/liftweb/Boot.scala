@@ -10,6 +10,11 @@ import sitemap._
 import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
+import java.sql.DriverManager
+import me.pepyakin.model.{User, SchemaHelper}
+
+import net.liftweb.squerylrecord.RecordTypeMode._
+import me.pepyakin.util.Auth
 
 
 /**
@@ -19,16 +24,29 @@ import net.liftweb.http.js.jquery._
 class Boot {
   def boot {
     // where to search snippet
-    LiftRules.addToPackages("code")
+    LiftRules.addToPackages("me.pepyakin")
+
+    SchemaHelper.initH2()
+
+
+    def loggedIn = () => {
+      if (Auth.isLoggedIn) Empty else {
+        Full(
+          S.redirectTo(
+            "/login",
+            () => S.notice("","Представьтесь пожалуйста!")
+          )
+        )
+      }
+    }
 
     // Build SiteMap
     val entries = List(
-      Menu.i("Домой") / "index", // the simple way to declare a menu
+      Menu.i("Домой") / "index" >> EarlyResponse(loggedIn),
 
-      // more complex because this menu allows anything in the
-      // /static path to be visible
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-	       "Static Content")))
+      Menu.i("Логин") / "login" >> Hidden
+    )
+
 
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.
@@ -54,5 +72,15 @@ class Boot {
     JQueryModule.InitParam.JQuery=JQueryModule.JQuery172
     JQueryModule.init()
 
+    // Make a transaction span the whole HTTP request
+    S.addAround(new LoanWrapper {
+      override def apply[T](f: => T): T =
+      {
+        inTransaction { f }
+      }
+    })
+
   }
+
+
 }
