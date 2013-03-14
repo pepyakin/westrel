@@ -1,12 +1,10 @@
 package me.pepyakin.model
 
 import net.liftweb._
-import common._
 import http.{Req, LiftRules}
 import org.squeryl.{SessionFactory, Schema}
 
 import squerylrecord.RecordTypeMode._
-import squerylrecord.SquerylRecord
 import java.sql.DriverManager
 import util.Props
 

@@ -23,6 +23,12 @@ import me.pepyakin.util.Auth
  */
 class Boot {
   def boot {
+
+
+    val logbackConfUrl = getClass().getClassLoader().getResource("logback.xml")
+
+    Logger.setup = Full(Logback.withFile(logbackConfUrl))
+
     // where to search snippet
     LiftRules.addToPackages("me.pepyakin")
 
