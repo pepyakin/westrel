@@ -6,7 +6,8 @@ import net.liftweb.common._
 import Helpers._
 import java.util.Date
 
-import me.pepyakin.util.DateUtil
+import me.pepyakin.util.{Auth, DateUtil}
+import me.pepyakin.model.{AccountEntry, AccountOp, WestrelSchema}
 
 /**
  * 
@@ -29,7 +30,7 @@ class AddForm extends StatefulSnippet {
     ":submit" #> SHtml.onSubmitUnit(process)
   }
 
-  private def process() = {
+  private def process() {
     // Очень не помешала бы конструкция Try из 2.10.
 
     val r = processAmount().right.flatMap { amount =>
@@ -42,12 +43,35 @@ class AddForm extends StatefulSnippet {
 
     r.fold(
       errorHappened => S.error("Ошибка: " + errorHappened),
-      succeededCheck => succeededCheck match {
-        case (amount, category, date) => {
-          S.notice("Успешно")
-        }
+      succeededCheck => {
+        val (amount, category, date) = succeededCheck
+
+        insertEntry(amount, category, date)
       }
     )
+  }
+
+
+  private def insertEntry(amount: Double, category: String, date: Date) {
+    /**
+     * User.currentUser.openOrThrowException("This snippet is used on pages where the user is logged in")
+     * Документация сказала что я полностью оправдан.
+     */
+    val userId = Auth.currentUserId.openOrThrowException(
+      "This snippet is used on pages where the user is logged in")
+
+
+    val op = {
+      import AccountOp._
+      if (amount > 0) INCOME else OUTCOME
+    }
+
+    val entry = AccountEntry(0, op, userId, amount, category, date)
+
+    {
+      import WestrelSchema._
+      accountEntries.insert(entry)
+    }
   }
 
   private def processAmount(): Either[String, Double] = {
@@ -64,14 +88,14 @@ class AddForm extends StatefulSnippet {
 
   private def processCategory(): Either[String, String] = {
     category.toLowerCase match {
-      case c if c.length == 0 => Left("Строка пуста")
-      case c if c.trim.length == 0 => Left("Строка состоит из пробелов")
+      case c if c.length == 0 => Left("Категория должна быть заполнена")
+      case c if c.trim.length == 0 => Left("Категория не может состоять из пробелов")
       case c => Right(c.trim)
     }
   }
 
   private def processDate(): Either[String, Date] = {
-    GoodDate.unapply(date).toRight("Строка не является датой")
+    GoodDate.unapply(date).toRight("Дата должна быть в формате дд/ММ")
   }
 
   private object GoodDate {
