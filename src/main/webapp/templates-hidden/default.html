@@ -13,14 +13,21 @@
                     <div class="navbar-inner">
                         <div class="container">
                             <span class="lift:TBNav.menuToTBNav?eager_eval=true">
-	                            <span class="lift:Menu.builder?top:class=nav;li_item:class=active;linkToSelf=true;expandAll=true"></span>
+	                            <span class="lift:Menu.builder?top:class=nav;li_item:class=active;linkToSelf=true;expandAll=true;group=main"></span>
+	                        </span>
+                            <span class="lift:TBNav.menuToTBNav?eager_eval=true">
+	                            <span data-lift="lift:Menu.builder?top:class=nav pull-right;li_item:class=active;linkToSelf=true;expandAll=true;group=user"></span>
 	                        </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="lift:Msgs?showAll=true"></div>
+            <div class="row">
+                <div class="alert lift:Msgs?showAll=true">
+                </div>
+            </div>
+
             <div class="row">
                 <div class="span6">
                     <div id="content">The main content will get bound here</div>

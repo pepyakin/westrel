@@ -11,31 +11,25 @@ import me.pepyakin.util.Auth
  * 
  * @author Sergey
  */
-object LoginScreen extends StatefulSnippet with Loggable {
-
-  private var login = ""
-  private var password = ""
-
-  private val whence = "/"
-
-  def dispatch = {
-    case "render" => render
-  }
+object LoginScreen extends Loggable {
 
   def render = {
-    "name=username" #> SHtml.text(login, login = _) &
-    "name=password" #> SHtml.password(password, password = _) &
-    ":submit" #> SHtml.onSubmitUnit(process)
-  }
+    var username = ""
+    var password = ""
 
-  def process() = {
-    logger.info("user: " + login + " password: " + password)
+    def process() = {
+      logger.info("user: " + username + " password: " + password)
 
-    if (Auth.login(login, password)) {
-      S.notice("Вы успешно зашли!")
-      S.redirectTo(whence)
-    } else {
-      S.error("Какой отстой")
+      if (Auth.login(username, password)) {
+        S.notice("Вы успешно зашли!")
+        S.redirectTo("/")
+      } else {
+        S.error("Какой отстой")
+      }
     }
+
+    "name=username" #> SHtml.onSubmit(username = _) &
+    "name=password" #> SHtml.onSubmit(password = _) &
+    ":submit" #> SHtml.onSubmitUnit(process)
   }
 }

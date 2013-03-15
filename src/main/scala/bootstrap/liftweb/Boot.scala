@@ -46,11 +46,20 @@ class Boot {
       }
     }
 
+    def userLinkText = Auth.currentUser.map(_.username).openOr("???")
+
     // Build SiteMap
     val entries = List(
-      Menu.i("Домой") / "index" >> EarlyResponse(loggedIn),
-      Menu.i("Список") / "list" >> EarlyResponse(loggedIn),
-      Menu.i("Категории") / "by-category" >> EarlyResponse(loggedIn),
+      Menu.i("Домой") / "index" >> LocGroup("main") >> EarlyResponse(loggedIn),
+      Menu.i("Список") / "list" >> LocGroup("main") >> EarlyResponse(loggedIn),
+      Menu.i("Категории") / "by-category" >> LocGroup("main") >> EarlyResponse(loggedIn),
+
+      Menu("user", userLinkText) / "#" >> LocGroup("user") >> PlaceHolder submenus(
+        Menu.i("Выйти") / "logout" >> EarlyResponse ( { () => {
+          Auth.logout
+          S.redirectTo("/login", () => S.notice("", "Вы успешно вышли"))
+        } })
+      ),
 
       Menu.i("Логин") / "login" >> Hidden
     )
