@@ -17,10 +17,12 @@ object DemoData {
   private val entries = {
     import AccountOp._
 
-    Seq(
-      AccountEntry(0, INCOME, 1, 30000.0, "зарплата", new Date),
-      AccountEntry(0, OUTCOME, 1, 5000.0, "одежда", new Date),
-      AccountEntry(0, OUTCOME, 1, 3000.0, "одежда", new Date)
+    Seq[AccountEntry](
+// Расскоментируйте для получения тестовых данных.
+
+      AccountEntry(0, OUTCOME, 1, 5000.0, "одежда", new Date(2012 - 1900, 12, 6)),
+      AccountEntry(0, INCOME, 1, 30000.0, "зарплата", new Date(2012 - 1900, 12, 5)),
+      AccountEntry(0, OUTCOME, 1, 3000.0, "одежда", new Date(2012 - 1900, 12, 13))
     )
   }
 

@@ -51,8 +51,8 @@ class Boot {
     // Build SiteMap
     val entries = List(
       Menu.i("Домой") / "index" >> LocGroup("main") >> EarlyResponse(loggedIn),
-      Menu.i("Список") / "list" >> LocGroup("main") >> EarlyResponse(loggedIn),
       Menu.i("Добавить") / "add" >> LocGroup("main") >> EarlyResponse(loggedIn),
+      Menu.i("Список") / "list" >> LocGroup("main") >> EarlyResponse(loggedIn),
       Menu.i("Категории") / "by-category" >> LocGroup("main") >> EarlyResponse(loggedIn),
 
       Menu("user", userLinkText) / "#" >> LocGroup("user") >> PlaceHolder submenus(

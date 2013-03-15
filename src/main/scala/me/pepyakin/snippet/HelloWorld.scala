@@ -9,7 +9,7 @@ import me.pepyakin.util.Auth
 class HelloWorld {
 
   def render = "* *" #> {
-    Auth.currentUser.toString
+    Auth.currentUser.map(_.username).openOrThrowException("Этот сниппет доступен только зарег. пользователю")
   }
 }
 

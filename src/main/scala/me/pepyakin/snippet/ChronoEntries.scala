@@ -61,10 +61,14 @@ object ChronoEntries extends Loggable {
   import org.squeryl.PrimitiveTypeMode._
 
   private def allEntries: Seq[AccountEntry] = {
-    from(accountEntries)(select(_)).toSeq
+    from(accountEntries)(x => select(x) orderBy(x.date)).toSeq
   }
 
   private def entriesByCategory(category: String): Seq[AccountEntry] = {
-    accountEntries.where(e => e.category === category).toSeq
+    from(accountEntries)( e =>
+      where(e.category === category)
+      select(e)
+      orderBy(e.date)
+    ).toSeq
   }
 }
