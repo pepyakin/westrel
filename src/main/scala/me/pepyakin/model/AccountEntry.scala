@@ -26,6 +26,4 @@ case class AccountEntry(
    * @return Пользователь, который внес данную запись
    */
   def user = users.lookup(userId)
-
-
 }

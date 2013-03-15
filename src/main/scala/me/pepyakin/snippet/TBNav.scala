@@ -1,3 +1,7 @@
+/**
+ * https://github.com/dph01/lift-TBUtils
+ */
+
 package me.pepyakin.snippet
 import scala.xml._
 import net.liftweb.util.Helpers._

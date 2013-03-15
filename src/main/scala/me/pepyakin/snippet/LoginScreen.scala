@@ -18,8 +18,6 @@ object LoginScreen extends Loggable {
     var password = ""
 
     def process() = {
-      logger.info("user: " + username + " password: " + password)
-
       if (Auth.login(username, password)) {
         S.notice("Вы успешно зашли!")
         S.redirectTo("/")
