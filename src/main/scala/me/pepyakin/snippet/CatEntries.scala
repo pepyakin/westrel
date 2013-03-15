@@ -15,7 +15,7 @@ object CatEntries extends Loggable {
   }
 
   private def categorySnippet(toWrap: NodeSeq, categoryName: String): NodeSeq = {
-    <legend>{ categoryName }</legend>
+    <legend class="category-name">{ categoryName }</legend>
     <lift:ChronoEntries category={ categoryName }>{ toWrap }</lift:ChronoEntries>
   }
 

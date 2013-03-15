@@ -4,7 +4,8 @@ import net.liftweb.http.{StatefulSnippet, SHtml, S}
 import net.liftweb.util._
 import net.liftweb.common._
 import Helpers._
-import java.util.Date
+import java.util.{Calendar, Date}
+
 
 import me.pepyakin.util.{Auth, DateUtil}
 import me.pepyakin.model.{AccountEntry, AccountOp, WestrelSchema}
@@ -53,6 +54,8 @@ class AddForm extends StatefulSnippet {
 
 
   private def insertEntry(amount: Double, category: String, date: Date) {
+    import scala.math.abs
+
     /**
      * User.currentUser.openOrThrowException("This snippet is used on pages where the user is logged in")
      * Документация сказала что я полностью оправдан.
@@ -66,7 +69,14 @@ class AddForm extends StatefulSnippet {
       if (amount > 0) INCOME else OUTCOME
     }
 
-    val entry = AccountEntry(0, op, userId, amount, category, date)
+    val entry = AccountEntry(
+      0,
+      op,
+      userId,
+      abs(amount),
+      category,
+      date
+    )
 
     {
       import WestrelSchema._
@@ -95,7 +105,18 @@ class AddForm extends StatefulSnippet {
   }
 
   private def processDate(): Either[String, Date] = {
-    GoodDate.unapply(date).toRight("Дата должна быть в формате дд/ММ")
+    GoodDate.unapply(date).map(updateYear).toRight("Дата должна быть в формате дд/ММ")
+  }
+
+  private def updateYear(date: Date) = {
+    // Не подключать же JodaTime только из-за этого кода.
+    val now = Calendar.getInstance()
+    val cal = Calendar.getInstance()
+
+    cal.setTime(date)
+    cal.setYear(now.get(Calendar.YEAR))
+
+    cal.getTime
   }
 
   private object GoodDate {

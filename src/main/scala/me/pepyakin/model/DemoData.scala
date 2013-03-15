@@ -18,9 +18,9 @@ object DemoData {
     import AccountOp._
 
     Seq(
-      AccountEntry(0, INCOME, 1, 30000.0, "Зарплата", new Date),
-      AccountEntry(0, OUTCOME, 1, 5000.0, "Одежда", new Date),
-      AccountEntry(0, OUTCOME, 1, 3000.0, "Одежда", new Date)
+      AccountEntry(0, INCOME, 1, 30000.0, "зарплата", new Date),
+      AccountEntry(0, OUTCOME, 1, 5000.0, "одежда", new Date),
+      AccountEntry(0, OUTCOME, 1, 3000.0, "одежда", new Date)
     )
   }
 
