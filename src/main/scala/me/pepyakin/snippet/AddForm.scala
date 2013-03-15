@@ -48,6 +48,8 @@ class AddForm extends StatefulSnippet {
         val (amount, category, date) = succeededCheck
 
         insertEntry(amount, category, date)
+
+        S.redirectTo("/list")
       }
     )
   }
